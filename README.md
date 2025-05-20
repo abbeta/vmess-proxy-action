@@ -7,7 +7,7 @@ This action launches a v2ray VMess proxy using a given config file in your workf
 ## Usage
 
 ```yaml
-- uses: abbeta/vmess-proxy-action@mater
+- uses: abbeta/vmess-proxy-action@master
   with:
     config-path: "config.json"   # (optional) Path to your v2ray config file
     test: "true"                 # (optional) Use "true" for default test (https://www.google.com), or a custom test URL (e.g., "https://www.bing.com")
@@ -20,7 +20,7 @@ This action launches a v2ray VMess proxy using a given config file in your workf
 ## Example
 
 ```yaml
-- uses: abbeta/vmess-proxy-action@mater
+- uses: abbeta/vmess-proxy-action@master
   with:
     config-path: "my-v2ray-config.json"
     test: "https://www.bing.com"
