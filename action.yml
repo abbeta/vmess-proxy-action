@@ -57,4 +57,4 @@ runs:
         test_url=$([[ "$test_url" == "true" ]] && echo "https://www.google.com" || echo "$test_url")
         ip=$(curl -s https://api.ip.sb/ip || curl -s https://ifconfig.me)
         latency=$(curl -o /dev/null -s -w "%{time_starttransfer}" "$test_url" || echo "Fail")
-        echo "@Test -> Proxy: IP: $ip | Latency (TTFB to $test_url): $([[ -n "$latency" ]] && echo "${latency}s" || echo "Fail")"
+        echo "@Proxy: IP: $ip | Latency (TTFB to $test_url): $([[ -n "$latency" ]] && echo "${latency}s" || echo "Fail")"
