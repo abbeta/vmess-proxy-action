@@ -11,6 +11,11 @@ This action launches a v2ray VMess proxy using a given config file in your workf
   with:
     config-path: "config.json"   # (optional) Path to your v2ray config file
     test: "true"                 # (optional) Use "true" for default test (https://www.google.com), or a custom test URL (e.g., "https://www.bing.com")
+- name: you fetch data action    # ava
+  env:
+    http_proxy: "socks5://127.0.0.1:10808"
+    https_proxy: "socks5://127.0.0.1:10808"
+  run: you script
 ```
 
 - If `test` is omitted or empty, no proxy test will be run.
