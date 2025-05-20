@@ -1,4 +1,4 @@
-# Setup VMess Proxy GitHub Action
+# VMess Proxy for Action
 
 
 This action launches a v2ray VMess proxy using a given config file in your workflow, and (optionally) tests outbound IP and latency via the proxy.
