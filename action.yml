@@ -18,8 +18,8 @@ runs:
     - name: Download v2ray-core
       shell: bash
       run: |
-        wget https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
-        unzip v2ray-linux-64.zip -d v2ray
+        wget https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip > /dev/null
+        unzip v2ray-linux-64.zip -d v2ray > /dev/null
         chmod +x v2ray/v2ray
     - name: Start v2ray
       shell: bash
