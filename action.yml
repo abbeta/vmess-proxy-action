@@ -59,4 +59,4 @@ runs:
         fi
         ip=$(curl -s https://api.ip.sb/ip || curl -s https://ifconfig.me)
         latency=$(curl -o /dev/null -s -w "%{time_starttransfer}" "$test_url" || echo "Fail")
-        echo "@Test -> Proxy Test Result: Public IP: $ip | Latency (TTFB to $test_url): $latency s"
+        echo "@Test -> Proxy: IP: $ip | Latency (TTFB to $test_url): $latency s"
