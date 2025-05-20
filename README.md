@@ -9,7 +9,7 @@ This action launches a v2ray VMess proxy using a given config file in your workf
 ```yaml
 - uses: abbeta/vmess-proxy-action@main
   with:
-    config-path: "config.json"   # (optional) Path to your v2ray config file
+    config-path: "config.json"   # (required) Path to your v2ray config file
     test: "true"                 # (optional) Use "true" for default test (https://www.google.com), or a custom test URL (e.g., "https://www.bing.com")
 - name: Fetch data using proxy   # only this step uses the v2ray socks5 proxy
   env:                           # The env block contains English comments explaining the purpose of each environment variable.
