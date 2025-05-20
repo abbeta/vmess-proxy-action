@@ -17,7 +17,7 @@ This action launches a v2ray VMess proxy using a given config file in your workf
     # All HTTP and HTTPS requests in this step will be routed through the local v2ray proxy.
     http_proxy: "socks5://127.0.0.1:10808"   # (required) HTTP proxy address, points to local v2ray socks5 proxy
     https_proxy: "socks5://127.0.0.1:10808"  # (required) HTTPS proxy address, points to local v2ray socks5 proxy
-    run: you script # Replace you script with your actual script/command
+    run: you script              # Replace you script with your actual script/command
 ```
 
 - If `test` is omitted or empty, no proxy test will be run.
