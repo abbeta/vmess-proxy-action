@@ -37,7 +37,7 @@ runs:
             exit 0
           fi
           echo "Waiting for v2ray to start..."
-          sleep 1
+          sleep 3
         done
         echo "v2ray failed to start."
         cat v2ray.log || true
@@ -51,7 +51,6 @@ runs:
       if: ${{ inputs.test != '' }}
       shell: bash
       run: |
-        sleep 3
         test_url="${{ inputs.test }}"
         if [[ "$test_url" == "true" ]]; then
           test_url="https://www.google.com"
