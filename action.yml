@@ -23,7 +23,7 @@ runs:
         chmod +x v2ray/v2ray
     - name: Start v2ray
       shell: bash
-      run: nohup ./v2ray/v2ray -c ${{ inputs.config-path }} > v2ray.log 2>&1 &
+      run: nohup ./v2ray/v2ray run  -c ${{ inputs.config-path }} > v2ray.log 2>&1 &
     - name: Check v2ray started
       shell: bash
       run: |
