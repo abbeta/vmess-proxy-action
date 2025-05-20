@@ -33,7 +33,7 @@ runs:
       run: |
         for i in {1..10}; do
           pgrep -f "v2ray" > /dev/null && echo "@Check: v2ray started successfully." && exit 0
-          echo "Waiting for v2ray to start... ($i/10)"
+          echo "@Check: Waiting for v2ray to start... ($i/10)"
           sleep 3
         done
         echo "@Check: v2ray failed to start."
