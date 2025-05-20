@@ -15,8 +15,7 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Download v2ray-core
-      shell: bash
+    - name: Download v2ray-core && start
       run: |
         {
         wget https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
@@ -24,12 +23,10 @@ runs:
         chmod +x v2ray/v2ray
         } > /dev/null 2>&1
     - name: Start v2ray
-      shell: bash
       run: |
         nohup ./v2ray/v2ray run  -c ${{ inputs.config-path }} > v2ray.log 2>&1 & 
         sleep 10
     - name: Check v2ray started
-      shell: bash
       run: |
         for i in {1..10}; do
           if pgrep -f "v2ray" > /dev/null; then
@@ -43,18 +40,19 @@ runs:
         cat v2ray.log || true
         exit 100
     - name: Export Proxy Env
-      shell: bash
       run: |
         echo "http_proxy=socks5://127.0.0.1:10808" >> $GITHUB_ENV
         echo "https_proxy=socks5://127.0.0.1:10808" >> $GITHUB_ENV
     - name: Test Outbound IP and Latency (via proxy)
       if: ${{ inputs.test != '' }}
-      shell: bash
+      env:
+        http_proxy: "socks5://127.0.0.1:10808"
+        https_proxy: "socks5://127.0.0.1:10808"
       run: |
         test_url="${{ inputs.test }}"
         if [[ "$test_url" == "true" ]]; then
           test_url="https://www.google.com"
         fi
-        ip=$(curl --socks5 127.0.0.1:10808 -s https://api.ip.sb/ip || curl --socks5 127.0.0.1:10808 -s https://ifconfig.me)
-        latency=$(curl --socks5 127.0.0.1:10808 -o /dev/null -s -w "%{time_starttransfer}" "$test_url" || echo "Fail")
-        echo "Proxy Test Result: Public IP: $ip | Latency (TTFB to $test_url): $latency s"
+        ip=$(curl -s https://api.ip.sb/ip || curl -s https://ifconfig.me)
+        latency=$(curl -o /dev/null -s -w "%{time_starttransfer}" "$test_url" || echo "Fail")
+        echo "@Test -> Proxy Test Result: Public IP: $ip | Latency (TTFB to $test_url): $latency s"
