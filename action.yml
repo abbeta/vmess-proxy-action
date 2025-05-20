@@ -24,7 +24,7 @@ runs:
     - name: Copy config
       shell: bash
       run: |
-        cp "${{ inputs.config-path }}" v2ray/config.json
+        cp ${{ inputs.config-path }} v2ray/config.json
     - name: Start v2ray
       shell: bash
       run: nohup ./v2ray/v2ray -config ./v2ray/config.json > v2ray.log 2>&1 &
