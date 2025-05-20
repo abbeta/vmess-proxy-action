@@ -11,7 +11,7 @@ This action launches a v2ray VMess proxy using a given config file in your workf
   with:
     config-path: "config.json"   # (optional) Path to your v2ray config file
     test: "true"                 # (optional) Use "true" for default test (https://www.google.com), or a custom test URL (e.g., "https://www.bing.com")
-- name: you fetch data name      # only this step uses the v2ray socks5 proxy
+- name: Fetch data using proxy   # only this step uses the v2ray socks5 proxy
   env:                           # The env block contains English comments explaining the purpose of each environment variable.
     # Set up SOCKS5 proxy environment variables for this step only.
     # All HTTP and HTTPS requests in this step will be routed through the local v2ray proxy.
