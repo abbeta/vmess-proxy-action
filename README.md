@@ -24,4 +24,9 @@ This action launches a v2ray VMess proxy using a given config file in your workf
   with:
     config-path: "my-v2ray-config.json"
     test: "https://www.bing.com"
+- name: you fetch data action
+  env:
+    http_proxy: "socks5://127.0.0.1:10808"
+    https_proxy: "socks5://127.0.0.1:10808"
+  run: you script
 ```
