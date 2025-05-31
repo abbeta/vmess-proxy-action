@@ -18,17 +18,8 @@ runs:
     - name: Download v2ray-core
       shell: bash
       run: |
-        {
-          if [ -x v2ray/v2ray ]; then
-            :
-          else
-            if [ ! -f v2ray-linux-64.zip ]; then
-              wget -q https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
-            fi
-            unzip -o v2ray-linux-64.zip -d v2ray
-          fi
-          chmod +x v2ray/v2ray
-        } > /dev/null 2>&1
+        vzip="https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip"
+        [ -x v2ray/v2ray ] || { [ -f v2ray-linux-64.zip ] || wget -q "$vzip"; unzip -o v2ray-linux-64.zip -d v2ray; }; chmod +x v2ray/v2ray > /dev/null 2>&1
     - name: Start v2ray
       shell: bash
       run: |
@@ -37,14 +28,9 @@ runs:
     - name: Check v2ray started
       shell: bash
       run: |
-        for i in {1..10}; do
-          pgrep -f "v2ray" > /dev/null && echo "@Check: v2ray started successfully." && exit 0
-          echo "@Check: Waiting for v2ray to start... ($i/10)"
-          sleep 3
-        done
-        echo "@Check: v2ray failed to start."
-        cat v2ray.log || true
-        exit 100
+        for i in {1..10}; do pgrep -f "v2ray" > /dev/null && echo "@Check: v2ray started successfully." && exit 0
+        echo "@Check: Waiting for v2ray to start... ($i/10)"; sleep 3; done
+        echo "@Check: v2ray failed to start."; cat v2ray.log || true; exit 100
     # - name: Export Proxy Env
     #   run: |
     #     echo "http_proxy=socks5://127.0.0.1:10808" >> $GITHUB_ENV
