@@ -19,15 +19,15 @@ runs:
       shell: bash
       run: |
         {
-        if [ -x v2ray/v2ray ]; then
-          : 
-        else
-          if [ ! -f v2ray-linux-64.zip ]; then
-            wget -q https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
+          if [ -x v2ray/v2ray ]; then
+            :
+          else
+            if [ ! -f v2ray-linux-64.zip ]; then
+              wget -q https://github.com/v2fly/v2ray-core/releases/latest/download/v2ray-linux-64.zip
+            fi
+            unzip -o v2ray-linux-64.zip -d v2ray
           fi
-          unzip -o v2ray-linux-64.zip -d v2ray
           chmod +x v2ray/v2ray
-        fi
         } > /dev/null 2>&1
     - name: Start v2ray
       shell: bash
