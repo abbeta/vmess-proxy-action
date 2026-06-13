@@ -7,6 +7,9 @@ concurrency:
   group: ${{ github.repository }}
   cancel-in-progress: false # 等待运行跑完
 
+permissions:
+  actions: write
+
 jobs:
   fetch:
     runs-on: ubuntu-latest
