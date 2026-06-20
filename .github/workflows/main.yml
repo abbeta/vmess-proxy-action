@@ -27,7 +27,7 @@ jobs:
     - name: require
       run: cd origin && pip install -r requirements.txt --prefer-binary
     - name: fetch
-      run: cd origin && python data.py | grep "^@Page*"
+      run: cd origin && python data.py | grep "^@Page"
     - name: Commit & push
       run: |
         cd origin
