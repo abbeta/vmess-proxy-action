@@ -32,7 +32,7 @@ jobs:
     - name: require
       run: cd origin && pip install -r requirements.txt --prefer-binary
     - name: fetch
-      run: cd origin && python data.py | grep $([ "${{ inputs.invert }}" = "0" ] && echo "-v") "^@Page"
+      run: cd origin && python data.py | grep ${{ inputs.invert == '0' && '-v' || '' }} "^@Page"
     - name: Commit & push
       run: |
         cd origin
