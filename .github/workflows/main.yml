@@ -3,14 +3,22 @@ name: fetch
 on:
   workflow_dispatch:
     inputs:
+      target:
+        description: 选择目标
+        required: true
+        default: DATA
+        type: choice
+        options:
+          - DATA
+          - STD
       invert:
-        description: "1=正常过滤 0=取反(-v)"
+        description: 1=正常过滤 0=取反(-v)
         required: false
         default: "1"
 
 concurrency:
   group: ${{ github.repository }}
-  cancel-in-progress: false # 等待运行跑完
+  cancel-in-progress: false
 
 permissions:
   actions: write
@@ -18,33 +26,31 @@ permissions:
 jobs:
   fetch:
     runs-on: ubuntu-latest
-
     steps:
-    - name: public
-      uses: actions/checkout@v6
-    - name: origin
-      run: git clone --depth 1 ${{ secrets.REPO_URL }} origin
-    - name: Setup python
-      uses: actions/setup-python@master
-      with:
-       python-version: '3.10'
-       cache: pip
-    - name: require
-      run: cd origin && pip install -r requirements.txt --prefer-binary
-    - name: fetch
-      run: cd origin && python data.py | grep ${{ inputs.invert == '0' && '-v' || '' }} "^@Page" || true
-    - name: Commit & push
-      run: |
-        cd origin
-        git config user.name "github-actions"
-        git config user.email "github-actions@github.com"
-        git add .
-        git commit -am "Update from ${{ github.repository }} $(TZ='Asia/Shanghai' date '+%D %T')" || echo "No changes"
-        git push origin main > /dev/null 2>&1 && echo "Push done!"
-    - name: Delete workflow runs
-      uses: Mattraks/delete-workflow-runs@v2
-      with:
-        token: ${{ github.token }}
-        repository: ${{ github.repository }}
-        retain_days: 0
-        keep_minimum_runs: 3
+      - name: pull
+        run: git clone --depth 1 ${{ secrets[inputs.target] }} origin
+      - name: Setup Python
+        uses: actions/setup-python@main
+        with:
+          python-version: "3.10"
+          cache: pip
+          cache-dependency-path: origin/requirements.txt
+      - name: Install requirements
+        run: cd origin && pip install -r requirements.txt --prefer-binary
+      - name: fetch
+        run: cd origin && python "$(tr A-Z a-z <<< '${{ inputs.target }}').py" | grep ${{ inputs.invert == '0' && '-v' || '' }} '^@Page' || true
+      - name: Commit & push
+        run: |
+          cd origin
+          git config user.name github-actions
+          git config user.email github-actions@github.com
+          git add .
+          git commit -am "Update from ${{ github.repository }} $(TZ='Asia/Shanghai' date '+%F %T')" || echo "No changes"
+          git push origin main > /dev/null 2>&1 && echo "Push done!"
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 0
+          keep_minimum_runs: 3
